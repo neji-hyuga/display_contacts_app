@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/activity_register_student_name_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:inputType="textCapWords"
+        android:hint="@string/name_edit_text_hint"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/activity_register_student_phone_number_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:hint="@string/phone_edit_text_hint"
+        android:inputType="phone"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/activity_register_student_email_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:hint="@string/email_edit_text_hint"
+        android:inputType="textEmailAddress"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:id="@+id/activity_register_student_save_button_id"
+        android:text="@string/register_button_text"/>
+
+</LinearLayout>
