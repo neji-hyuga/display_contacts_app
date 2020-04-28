@@ -3,6 +3,7 @@ package com.alura.displaycontactsapp.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -11,7 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alura.displaycontactsapp.R;
 import com.alura.displaycontactsapp.dao.StudentDAO;
+import com.alura.displaycontactsapp.model.Student;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 
 public class StudentListActivity extends AppCompatActivity {
 
@@ -27,6 +31,9 @@ public class StudentListActivity extends AppCompatActivity {
         // app bar text set example
         setTitle(APPBAR_TITLE);
         fabConfiguration();
+
+        dao.saveStudent(new Student("Alex", "1122223333", "alex@alura.com.br"));
+        dao.saveStudent(new Student("Fran", "1122223333", "fran@gmail.com"));
 
     }
 
@@ -55,9 +62,20 @@ public class StudentListActivity extends AppCompatActivity {
     // new adapter have been created
     private void configureList() {
         ListView studentList = findViewById(R.id.activity_student_list_list_view_id);
+        final List<Student> students = dao.allStudents();
         studentList.setAdapter(new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
-                dao.allStudents()));
+                students));
+        studentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
+                Student chosenStudent = students.get(i);
+                Intent intent = new Intent(StudentListActivity.this, RegisterStudentActivity.class);
+                intent.putExtra("student", chosenStudent);
+
+                startActivity(intent);
+            }
+        });
     }
 }

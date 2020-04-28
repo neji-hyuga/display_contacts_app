@@ -1,5 +1,6 @@
 package com.alura.displaycontactsapp.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -27,6 +28,12 @@ public class RegisterStudentActivity extends AppCompatActivity {
         setTitle(APPBAR_TITLE);
         initializesFields();
         buttonConfiguration();
+
+        Intent intent = getIntent();
+        Student student = (Student) intent.getSerializableExtra("student");
+        studentName.setText(student.getName());
+        studentPhone.setText(student.getPhone());
+        studentEmail.setText(student.getEmail());
     }
 
     private void buttonConfiguration() {
