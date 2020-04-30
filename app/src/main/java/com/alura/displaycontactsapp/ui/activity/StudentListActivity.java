@@ -2,6 +2,8 @@ package com.alura.displaycontactsapp.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,13 +17,15 @@ import com.alura.displaycontactsapp.dao.StudentDAO;
 import com.alura.displaycontactsapp.model.Student;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.List;
+import static android.content.ContentValues.TAG;
+import static com.alura.displaycontactsapp.ui.activity.Constants.STUDENT_KEY;
 
 public class StudentListActivity extends AppCompatActivity {
 
     // example of new DAO (data access object), class was created before
     private final StudentDAO dao = new StudentDAO();
     public static final String APPBAR_TITLE = "display contact app";
+    private ArrayAdapter<Student> adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,10 +35,16 @@ public class StudentListActivity extends AppCompatActivity {
         // app bar text set example
         setTitle(APPBAR_TITLE);
         fabConfiguration();
-
+        configureList();
         dao.saveStudent(new Student("Alex", "1122223333", "alex@alura.com.br"));
         dao.saveStudent(new Student("Fran", "1122223333", "fran@gmail.com"));
 
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add("remove");
     }
 
     private void fabConfiguration() {
@@ -43,39 +53,61 @@ public class StudentListActivity extends AppCompatActivity {
         newStudentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                opensRegisterStudentActivity();
+                opensRegisterStudent();
             }
         });
     }
 
-    private void opensRegisterStudentActivity() {
+    private void opensRegisterStudent() {
         startActivity(new Intent(this, RegisterStudentActivity.class));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        refreshStudentList();
 
-        configureList();
+    }
+
+    private void refreshStudentList() {
+        adapter.clear();
+        adapter.addAll(dao.allStudents()); // example to refresh list
     }
 
     // new adapter have been created
     private void configureList() {
         ListView studentList = findViewById(R.id.activity_student_list_list_view_id);
-        final List<Student> students = dao.allStudents();
-        studentList.setAdapter(new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1,
-                students));
+        configuresAdapter(studentList);
+        configuresListenerClick(studentList);
+        registerForContextMenu(studentList);
+    }
+
+    private void removeStudent(Student student) {
+        dao.deleteStudent(student);
+        adapter.remove(student);
+    }
+
+    private void configuresListenerClick(ListView studentList) {
         studentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
-                Student chosenStudent = students.get(i);
-                Intent intent = new Intent(StudentListActivity.this, RegisterStudentActivity.class);
-                intent.putExtra("student", chosenStudent);
-
-                startActivity(intent);
+                Student chosenStudent = (Student) adapterView.getItemAtPosition(i);
+                Log.i(TAG, "editStudent: " + i);
+                opensEditStudent(chosenStudent);
             }
         });
+    }
+
+    private void opensEditStudent(Student student) {
+        Intent intent = new Intent(StudentListActivity.this, RegisterStudentActivity.class);
+        intent.putExtra(STUDENT_KEY, student);
+        startActivity(intent);
+    }
+
+    private void configuresAdapter(ListView studentList) {
+        adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1);
+        studentList.setAdapter(adapter);
     }
 }

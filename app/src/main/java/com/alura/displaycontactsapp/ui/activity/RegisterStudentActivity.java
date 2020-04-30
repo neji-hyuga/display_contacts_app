@@ -11,26 +11,41 @@ import com.alura.displaycontactsapp.dao.StudentDAO;
 import com.alura.displaycontactsapp.model.Student;
 import com.google.android.material.textfield.TextInputEditText;
 
+import static com.alura.displaycontactsapp.ui.activity.Constants.STUDENT_KEY;
+
 public class RegisterStudentActivity extends AppCompatActivity {
 
-    public static final String APPBAR_TITLE = "new student ; )";
+    private static final String APPBAR_TITLE_NEW_STUDENT = "new student ; )";
+    private static final String APPBAR_TITLE_EDIT_STUDENT = "edit student infos";
     private TextInputEditText studentName;
     private TextInputEditText studentPhone;
     private TextInputEditText studentEmail;
     private final StudentDAO dao = new StudentDAO();
+    private Student student;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_student);
-
-        setTitle(APPBAR_TITLE);
         initializesFields();
         buttonConfiguration();
+        loadStudentInfo();
+    }
 
+    private void loadStudentInfo() {
         Intent intent = getIntent();
-        Student student = (Student) intent.getSerializableExtra("student");
+        if (intent.hasExtra(STUDENT_KEY)) {
+            setTitle(APPBAR_TITLE_EDIT_STUDENT);
+            student = (Student) intent.getSerializableExtra(STUDENT_KEY);
+            fillsFields();
+        } else {
+            setTitle(APPBAR_TITLE_NEW_STUDENT);
+            student = new Student();
+        }
+    }
+
+    private void fillsFields() {
         studentName.setText(student.getName());
         studentPhone.setText(student.getPhone());
         studentEmail.setText(student.getEmail());
@@ -41,10 +56,19 @@ public class RegisterStudentActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Student student = createsStudent();
-                savesStudent(student);
+                endsForm();
             }
         });
+    }
+
+    private void endsForm() {
+        completesStudentForm();
+        if (student.hasValidId()) {
+            dao.editStudent(student);
+        } else {
+            dao.saveStudent(student);
+        }
+        finish();
     }
 
     private void initializesFields() {
@@ -53,17 +77,14 @@ public class RegisterStudentActivity extends AppCompatActivity {
         studentEmail = findViewById(R.id.activity_register_student_email_id);
     }
 
-    private Student createsStudent() {
+    private void completesStudentForm() {
         String name = studentName.getText().toString();
         String phone = studentPhone.getText().toString();
         String email = studentEmail.getText().toString();
 
-        return new Student(name, phone, email);
+        student.setName(name);
+        student.setPhone(phone);
+        student.setEmail(email);
     }
 
-    private void savesStudent(Student student) {
-        dao.saveStudent(student);
-
-        finish();
-    }
 }
