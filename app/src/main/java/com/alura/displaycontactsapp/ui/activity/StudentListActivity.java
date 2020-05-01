@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,15 +38,25 @@ public class StudentListActivity extends AppCompatActivity {
         setTitle(APPBAR_TITLE);
         fabConfiguration();
         configureList();
-        dao.saveStudent(new Student("Alex", "1122223333", "alex@alura.com.br"));
-        dao.saveStudent(new Student("Fran", "1122223333", "fran@gmail.com"));
-
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add("remove");
+        getMenuInflater().inflate(R.menu.activity_student_list_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        CharSequence menuTitle = item.getTitle();
+        if (itemId == R.id.activity_student_list_menu_remove_id) {
+            AdapterView.AdapterContextMenuInfo menuInfo =
+                    (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            Student chosenStudent = adapter.getItem(menuInfo.position);
+            removeStudent(chosenStudent);
+        }
+        return super.onContextItemSelected(item);
     }
 
     private void fabConfiguration() {

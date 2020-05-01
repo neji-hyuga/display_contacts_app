@@ -22,14 +22,14 @@ public class StudentDAO {
 
     //example od edition, first you need to find your object, than you can edit it
     public void editStudent(Student student) {
-        Student studentToBeEdited = getByStudentId(student);
+        Student studentToBeEdited = getStudentId(student);
         if (studentToBeEdited != null) {
             int studentPosition = studentList.indexOf(studentToBeEdited);
             studentList.set(studentPosition, student);
         }
     }
 
-    private Student getByStudentId(Student student) {
+    private Student getStudentId(Student student) {
         for (Student std :
                 studentList) {
             if (std.getId() == student.getId()) {
@@ -45,7 +45,7 @@ public class StudentDAO {
     }
 
     public void deleteStudent(Student student) {
-        Student chosenStudent = getByStudentId(student);
+        Student chosenStudent = getStudentId(student);
         if (chosenStudent != null) {
             studentList.remove(chosenStudent);
         }

@@ -2,8 +2,11 @@ package com.alura.displaycontactsapp.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alura.displaycontactsapp.R;
@@ -29,8 +32,22 @@ public class RegisterStudentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_student);
         initializesFields();
-        buttonConfiguration();
         loadStudentInfo();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_student_register_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if(itemId == R.id.activity_student_register_menu_save_id){
+            endsForm();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void loadStudentInfo() {
@@ -49,16 +66,6 @@ public class RegisterStudentActivity extends AppCompatActivity {
         studentName.setText(student.getName());
         studentPhone.setText(student.getPhone());
         studentEmail.setText(student.getEmail());
-    }
-
-    private void buttonConfiguration() {
-        View registerButton = findViewById(R.id.activity_register_student_save_button_id);
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                endsForm();
-            }
-        });
     }
 
     private void endsForm() {
