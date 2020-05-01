@@ -7,7 +7,6 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.alura.displaycontactsapp.R;
 import com.alura.displaycontactsapp.dao.StudentDAO;
 import com.alura.displaycontactsapp.model.Student;
+import com.alura.displaycontactsapp.ui.adapter.StudentListAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import static android.content.ContentValues.TAG;
@@ -27,7 +27,7 @@ public class StudentListActivity extends AppCompatActivity {
     // example of new DAO (data access object), class was created before
     private final StudentDAO dao = new StudentDAO();
     public static final String APPBAR_TITLE = "display contact app";
-    private ArrayAdapter<Student> adapter;
+    private StudentListAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,12 +78,10 @@ public class StudentListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         refreshStudentList();
-
     }
 
     private void refreshStudentList() {
-        adapter.clear();
-        adapter.addAll(dao.allStudents()); // example to refresh list
+        adapter.refresh(dao.allStudents());
     }
 
     // new adapter have been created
@@ -116,10 +114,8 @@ public class StudentListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void configuresAdapter(ListView studentList) {
-        adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1);
+    private void configuresAdapter(final ListView studentList) {
+        adapter = new StudentListAdapter(this);
         studentList.setAdapter(adapter);
     }
 }
