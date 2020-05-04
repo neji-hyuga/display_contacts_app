@@ -1,5 +1,8 @@
 package com.alura.displaycontactsapp.ui.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,16 +50,31 @@ public class StudentListActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
+    public boolean onContextItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         CharSequence menuTitle = item.getTitle();
         if (itemId == R.id.activity_student_list_menu_remove_id) {
-            AdapterView.AdapterContextMenuInfo menuInfo =
-                    (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            Student chosenStudent = adapter.getItem(menuInfo.position);
-            removeStudent(chosenStudent);
+            checkDelete(item);
         }
         return super.onContextItemSelected(item);
+    }
+
+    private void checkDelete(final MenuItem item) {
+        new AlertDialog
+                .Builder(this)
+                .setTitle("dou you want to remove this contact?")
+                .setMessage("for sure?")
+                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        AdapterView.AdapterContextMenuInfo menuInfo =
+                                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                        Student chosenStudent = adapter.getItem(menuInfo.position);
+                        removeStudent(chosenStudent);
+                    }
+                })
+                .setNegativeButton("no",null)
+                .show();
     }
 
     private void fabConfiguration() {
