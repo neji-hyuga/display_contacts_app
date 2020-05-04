@@ -18,7 +18,7 @@ import static com.alura.displaycontactsapp.ui.activity.Constants.STUDENT_KEY;
 public class RegisterStudentActivity extends AppCompatActivity {
 
     private static final String APPBAR_TITLE_NEW_STUDENT = "new student ; )";
-    private static final String APPBAR_TITLE_EDIT_STUDENT = "edit student infos";
+    private static final String APPBAR_TITLE_EDIT_STUDENT = "edit student info";
     private TextInputEditText studentName;
     private TextInputEditText studentPhone;
     private TextInputEditText studentEmail;
