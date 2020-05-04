@@ -1,8 +1,5 @@
 package com.alura.displaycontactsapp.ui.activity;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,14 +9,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alura.displaycontactsapp.R;
-import com.alura.displaycontactsapp.dao.StudentDAO;
 import com.alura.displaycontactsapp.model.Student;
-import com.alura.displaycontactsapp.ui.adapter.StudentListAdapter;
+import com.alura.displaycontactsapp.ui.StudentListView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import static android.content.ContentValues.TAG;
@@ -28,9 +23,8 @@ import static com.alura.displaycontactsapp.ui.activity.Constants.STUDENT_KEY;
 public class StudentListActivity extends AppCompatActivity {
 
     // example of new DAO (data access object), class was created before
-    private final StudentDAO dao = new StudentDAO();
-    public static final String APPBAR_TITLE = "display contact app";
-    private StudentListAdapter adapter;
+    private static final String APPBAR_TITLE = "display contact app";
+    private final StudentListView studentListView = new StudentListView(this);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,33 +48,15 @@ public class StudentListActivity extends AppCompatActivity {
         int itemId = item.getItemId();
         CharSequence menuTitle = item.getTitle();
         if (itemId == R.id.activity_student_list_menu_remove_id) {
-            checkDelete(item);
+            studentListView.checkDelete(item);
         }
         return super.onContextItemSelected(item);
-    }
-
-    private void checkDelete(final MenuItem item) {
-        new AlertDialog
-                .Builder(this)
-                .setTitle("dou you want to remove this contact?")
-                .setMessage("for sure?")
-                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        AdapterView.AdapterContextMenuInfo menuInfo =
-                                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-                        Student chosenStudent = adapter.getItem(menuInfo.position);
-                        removeStudent(chosenStudent);
-                    }
-                })
-                .setNegativeButton("no",null)
-                .show();
     }
 
     private void fabConfiguration() {
         // example of FAB action, start new activity
         FloatingActionButton newStudentButton = findViewById(R.id.activity_student_list_fab_id);
-        newStudentButton.setOnClickListener(new View.OnClickListener() {
+        newStudentButton.setOnClickListener(new View.OnClickListener() { // example of listener with abstract class, above with lambda expression
             @Override
             public void onClick(View view) {
                 opensRegisterStudent();
@@ -95,24 +71,15 @@ public class StudentListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        refreshStudentList();
-    }
-
-    private void refreshStudentList() {
-        adapter.refresh(dao.allStudents());
+        studentListView.refreshStudentList();
     }
 
     // new adapter have been created
     private void configureList() {
         ListView studentList = findViewById(R.id.activity_student_list_list_view_id);
-        configuresAdapter(studentList);
+        studentListView.configuresAdapter(studentList);
         configuresListenerClick(studentList);
         registerForContextMenu(studentList);
-    }
-
-    private void removeStudent(Student student) {
-        dao.deleteStudent(student);
-        adapter.remove(student);
     }
 
     private void configuresListenerClick(ListView studentList) {
@@ -130,10 +97,5 @@ public class StudentListActivity extends AppCompatActivity {
         Intent intent = new Intent(StudentListActivity.this, RegisterStudentActivity.class);
         intent.putExtra(STUDENT_KEY, student);
         startActivity(intent);
-    }
-
-    private void configuresAdapter(final ListView studentList) {
-        adapter = new StudentListAdapter(this);
-        studentList.setAdapter(adapter);
     }
 }

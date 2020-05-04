@@ -13,6 +13,8 @@ import com.alura.displaycontactsapp.dao.StudentDAO;
 import com.alura.displaycontactsapp.model.Student;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.Objects;
+
 import static com.alura.displaycontactsapp.ui.activity.Constants.STUDENT_KEY;
 
 public class RegisterStudentActivity extends AppCompatActivity {
@@ -84,9 +86,9 @@ public class RegisterStudentActivity extends AppCompatActivity {
     }
 
     private void completesStudentForm() {
-        String name = studentName.getText().toString();
-        String phone = studentPhone.getText().toString();
-        String email = studentEmail.getText().toString();
+        String name = Objects.requireNonNull(studentName.getText()).toString();
+        String phone = Objects.requireNonNull(studentPhone.getText()).toString();
+        String email = Objects.requireNonNull(studentEmail.getText()).toString();
 
         student.setName(name);
         student.setPhone(phone);

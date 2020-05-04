@@ -5,6 +5,7 @@ import android.app.Application;
 import com.alura.displaycontactsapp.dao.StudentDAO;
 import com.alura.displaycontactsapp.model.Student;
 
+@SuppressWarnings("WeakerAccess")
 public class ContactsApplication extends Application {
     @Override
     public void onCreate() {
