@@ -29,6 +29,14 @@ android {
 }
 
 dependencies {
+
+    // implements ROOM
+    def room_version = "2.2.5" // variable to avoid mistakes
+
+    implementation "androidx.room:room-runtime:$room_version" // lib
+    annotationProcessor "androidx.room:room-compiler:$room_version" // entity to generate code with metadata, allow to configures objects and check
+
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
