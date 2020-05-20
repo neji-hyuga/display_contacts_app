@@ -9,7 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alura.displaycontactsapp.R;
-import com.alura.displaycontactsapp.dao.StudentDAO;
+import com.alura.displaycontactsapp.db.ContactsDatabase;
+import com.alura.displaycontactsapp.db.dao.StudentDAO;
 import com.alura.displaycontactsapp.model.Student;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -24,7 +25,7 @@ public class RegisterStudentActivity extends AppCompatActivity {
     private TextInputEditText studentName;
     private TextInputEditText studentPhone;
     private TextInputEditText studentEmail;
-    private final StudentDAO dao = new StudentDAO();
+    private StudentDAO dao;
     private Student student;
 
 
@@ -32,6 +33,8 @@ public class RegisterStudentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_student);
+        ContactsDatabase database = ContactsDatabase.getInstance(this);
+        dao = database.getRoomStudentDAO();
         initializesFields();
         loadStudentInfo();
     }

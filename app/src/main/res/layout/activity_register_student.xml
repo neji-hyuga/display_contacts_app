@@ -16,6 +16,14 @@
             android:hint="@string/name_edit_text_hint"
             android:inputType="textCapWords" />
 
+<!--        <com.google.android.material.textfield.TextInputEditText-->
+<!--            android:id="@+id/activity_register_student_surname_id"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="8dp"-->
+<!--            android:hint="@string/text_surname"-->
+<!--            android:inputType="textCapWords" />-->
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/activity_register_student_phone_number_id"
             android:layout_width="match_parent"

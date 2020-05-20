@@ -6,7 +6,8 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.alura.displaycontactsapp.dao.StudentDAO;
+import com.alura.displaycontactsapp.db.ContactsDatabase;
+import com.alura.displaycontactsapp.db.dao.StudentDAO;
 import com.alura.displaycontactsapp.model.Student;
 import com.alura.displaycontactsapp.ui.adapter.StudentListAdapter;
 
@@ -19,8 +20,8 @@ public class StudentListView {
     public StudentListView(Context context) {
         this.context = context;
         this.adapter = new StudentListAdapter(this.context);
-        dao = new StudentDAO();
-
+        dao = ContactsDatabase.getInstance(context)
+                .getRoomStudentDAO();
     }
 
     public void checkDelete(final MenuItem item) {

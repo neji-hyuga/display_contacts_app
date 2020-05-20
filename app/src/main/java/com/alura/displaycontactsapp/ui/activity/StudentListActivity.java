@@ -22,9 +22,8 @@ import static com.alura.displaycontactsapp.ui.activity.Constants.STUDENT_KEY;
 
 public class StudentListActivity extends AppCompatActivity {
 
-    // example of new DAO (data access object), class was created before
     private static final String APPBAR_TITLE = "display contact app";
-    private final StudentListView studentListView = new StudentListView(this);
+    private StudentListView studentListView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,6 +32,7 @@ public class StudentListActivity extends AppCompatActivity {
 
         // app bar text set example
         setTitle(APPBAR_TITLE);
+        studentListView = new StudentListView(this);
         fabConfiguration();
         configureList();
     }

@@ -1,23 +1,30 @@
 package com.alura.displaycontactsapp.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
+@Entity
 public class Student implements Serializable {
 
+    @PrimaryKey(autoGenerate = true)
     private int id = 0;
     private String name;
     private String phone;
     private String email;
+    private Calendar startDay = Calendar.getInstance();
 
-    public Student(String name, String phone, String email) {
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
+    public Calendar getStartDay() {
+        return startDay;
     }
 
-    public Student() {
+    public void setStartDay(Calendar startDay) {
+        this.startDay = startDay;
     }
 
     public void setName(String name) {
@@ -60,5 +67,14 @@ public class Student implements Serializable {
 
     public boolean hasValidId() {
         return id > 0;
+    }
+
+    public String getCompleteName() {
+        return name;
+    }
+
+    public String formattedDate(){
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        return format.format(startDay.getTime());
     }
 }

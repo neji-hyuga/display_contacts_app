@@ -48,7 +48,7 @@ public class StudentListAdapter extends BaseAdapter {
     private void joinsInformation(View view, Student studentSelected) {
         TextView name = view.findViewById(R.id.item_student_name_id);
         TextView phone = view.findViewById(R.id.item_student_phone_id);
-        name.setText(studentSelected.getName());
+        name.setText(studentSelected.getCompleteName() + " " + studentSelected.formattedDate());
         phone.setText(studentSelected.getPhone());
     }
 
