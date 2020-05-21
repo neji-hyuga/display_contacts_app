@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.alura.displaycontactsapp.R;
+import com.alura.displaycontactsapp.dao.PhoneDAO;
+import com.alura.displaycontactsapp.db.ContactsDatabase;
+import com.alura.displaycontactsapp.model.Phone;
 import com.alura.displaycontactsapp.model.Student;
 
 import java.util.ArrayList;
@@ -17,9 +20,12 @@ public class StudentListAdapter extends BaseAdapter {
 
     private final List<Student> students = new ArrayList<>();
     private final Context context;
+    private final PhoneDAO dao;
+
 
     public StudentListAdapter(Context context) {
         this.context = context;
+        dao= ContactsDatabase.getInstance(context).getPhoneDAO();
     }
 
     @Override
@@ -47,9 +53,10 @@ public class StudentListAdapter extends BaseAdapter {
 
     private void joinsInformation(View view, Student studentSelected) {
         TextView name = view.findViewById(R.id.item_student_name_id);
+        name.setText(studentSelected.getName());
         TextView phone = view.findViewById(R.id.item_student_phone_id);
-        name.setText(studentSelected.getCompleteName() + " " + studentSelected.formattedDate());
-        phone.setText(studentSelected.getPhone());
+        Phone firstPhone = dao.searchFirstStudentPhone(studentSelected.getId());
+        phone.setText(firstPhone.getNumber());
     }
 
     private View createsView(ViewGroup viewGroup) {

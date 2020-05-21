@@ -24,6 +24,7 @@ public class RegisterStudentActivity extends AppCompatActivity {
     private static final String APPBAR_TITLE_EDIT_STUDENT = "edit student info";
     private TextInputEditText studentName;
     private TextInputEditText studentPhone;
+    private TextInputEditText studentMobile;
     private TextInputEditText studentEmail;
     private StudentDAO dao;
     private Student student;
@@ -68,7 +69,8 @@ public class RegisterStudentActivity extends AppCompatActivity {
 
     private void fillsFields() {
         studentName.setText(student.getName());
-        studentPhone.setText(student.getPhone());
+//        studentPhone.setText(student.getPhone());
+//        studentMobile.setText(student.getMobile());
         studentEmail.setText(student.getEmail());
     }
 
@@ -85,16 +87,19 @@ public class RegisterStudentActivity extends AppCompatActivity {
     private void initializesFields() {
         studentName = findViewById(R.id.activity_register_student_name_id);
         studentPhone = findViewById(R.id.activity_register_student_phone_number_id);
+        studentMobile = findViewById(R.id.activity_register_student_mobile_number_id);
         studentEmail = findViewById(R.id.activity_register_student_email_id);
     }
 
     private void completesStudentForm() {
         String name = Objects.requireNonNull(studentName.getText()).toString();
         String phone = Objects.requireNonNull(studentPhone.getText()).toString();
+        String mobile = Objects.requireNonNull(studentMobile.getText()).toString();
         String email = Objects.requireNonNull(studentEmail.getText()).toString();
 
         student.setName(name);
-        student.setPhone(phone);
+//        student.setPhone(phone);
+//        student.setMobile(mobile);
         student.setEmail(email);
     }
 

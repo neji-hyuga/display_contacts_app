@@ -2,12 +2,12 @@ package com.alura.displaycontactsapp.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 @Entity
 public class Student implements Serializable {
@@ -15,7 +15,6 @@ public class Student implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id = 0;
     private String name;
-    private String phone;
     private String email;
     private Calendar startDay = Calendar.getInstance();
 
@@ -31,20 +30,12 @@ public class Student implements Serializable {
         this.name = name;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }
 
     public String getName() {
         return name;
-    }
-
-    public String getPhone() {
-        return phone;
     }
 
     public String getEmail() {
@@ -54,7 +45,7 @@ public class Student implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return name + "- " + phone;
+        return name;
     }
 
     public void setId(int id) {
@@ -73,8 +64,9 @@ public class Student implements Serializable {
         return name;
     }
 
-    public String formattedDate(){
+    public String formattedDate() {
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         return format.format(startDay.getTime());
     }
+
 }

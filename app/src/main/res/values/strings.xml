@@ -5,5 +5,6 @@
     <string name="email_edit_text_hint">email</string>
     <string name="remove">remove</string>
     <string name="save">save</string>
-<!--    <string name="text_surname">surname</string>-->
+    <string name="text_mobile">mobile number</string>
+    <!--    <string name="text_surname">surname</string>-->
 </resources>
